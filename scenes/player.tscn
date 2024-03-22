@@ -1,26 +1,40 @@
-[gd_scene load_steps=6 format=3 uid="uid://8d3ys4aw51lk"]
+[gd_scene load_steps=8 format=3 uid="uid://8d3ys4aw51lk"]
 
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_7q1sy"]
-[ext_resource type="Texture2D" uid="uid://tw8t38ns0seh" path="res://icon.svg" id="1_omytg"]
 [ext_resource type="PackedScene" uid="uid://dskjy6yd4quog" path="res://scenes/bullet.tscn" id="2_pyqhq"]
+[ext_resource type="Texture2D" uid="uid://6dse5cbajfrs" path="res://assets/Knight/noBKG_KnightIdle_strip.png" id="3_ms37y"]
+[ext_resource type="Script" path="res://scenes/input_synchronizer.gd" id="4_outfk"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_rl8oa"]
-size = Vector2(128, 128)
+[sub_resource type="CircleShape2D" id="CircleShape2D_v330e"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_8jyo0"]
 properties/0/path = NodePath(".:score")
 properties/0/spawn = true
 properties/0/replication_mode = 2
+properties/1/path = NodePath(".:position")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fcft3"]
+properties/0/path = NodePath("InputSynchronizer:move_input")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("InputSynchronizer:jumping")
+properties/1/spawn = true
+properties/1/replication_mode = 2
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_7q1sy")
 bullet_scene = ExtResource("2_pyqhq")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_rl8oa")
-
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_omytg")
+scale = Vector2(2, 2)
+texture = ExtResource("3_ms37y")
+hframes = 15
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 14)
+shape = SubResource("CircleShape2D_v330e")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://scenes/bullet.tscn")
@@ -28,3 +42,7 @@ spawn_path = NodePath(".")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_8jyo0")
+
+[node name="InputSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_fcft3")
+script = ExtResource("4_outfk")
