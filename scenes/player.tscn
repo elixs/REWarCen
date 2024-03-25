@@ -24,6 +24,8 @@ properties/1/spawn = true
 properties/1/replication_mode = 2
 
 [node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_7q1sy")
 bullet_scene = ExtResource("2_pyqhq")
 
@@ -46,3 +48,8 @@ replication_config = SubResource("SceneReplicationConfig_8jyo0")
 [node name="InputSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_fcft3")
 script = ExtResource("4_outfk")
+
+[node name="Line2D" type="Line2D" parent="."]
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+avoidance_enabled = true
