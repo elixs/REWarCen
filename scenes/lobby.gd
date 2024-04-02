@@ -88,9 +88,9 @@ func _process(delta: float) -> void:
 func _on_upnp_completed(status) -> void:
 	print(status)
 	if status == OK:
-		Debug.sprint("Port Opened", 5)
+		Debug.log("Port Opened", 5)
 	else:
-		Debug.sprint("Port Error", 5)
+		Debug.log("Port Error", 5)
 
 
 func _on_host_pressed() -> void:
@@ -98,7 +98,7 @@ func _on_host_pressed() -> void:
 	
 	var err = peer.create_server(Statics.PORT, Statics.MAX_CLIENTS)
 	if err:
-		Debug.sprint("Host Error: %d" %err)
+		Debug.log("Host Error: %d" %err)
 		return
 	
 	multiplayer.multiplayer_peer = peer
@@ -117,7 +117,7 @@ func _on_confirm_join_pressed() -> void:
 	var peer = ENetMultiplayerPeer.new()
 	var err = peer.create_client(ip.text, Statics.PORT)
 	if err:
-		Debug.sprint("Host Error: %d" %err)
+		Debug.log("Host Error: %d" %err)
 		return
 	
 	multiplayer.multiplayer_peer = peer
@@ -129,15 +129,15 @@ func _on_confirm_join_pressed() -> void:
 
 
 func _on_connected_to_server() -> void:
-	Debug.sprint("connected_to_server")
+	Debug.log("connected_to_server")
 
 
 func _on_connection_failed() -> void:
-	Debug.sprint("connection_failed")
+	Debug.log("connection_failed")
 
 
 func _on_peer_connected(id: int) -> void:
-	Debug.sprint("peer_connected %d" % id)
+	Debug.log("peer_connected %d" % id)
 	
 	send_info.rpc_id(id, Game.get_current_player().to_dict())
 	var local_id = multiplayer.get_unique_id()
@@ -148,7 +148,7 @@ func _on_peer_connected(id: int) -> void:
 
 
 func _on_peer_disconnected(id: int) -> void:
-	Debug.sprint("peer_disconnected %d" % id)
+	Debug.log("peer_disconnected %d" % id)
 	_remove_player(id)
 	if multiplayer.is_server():
 		starting_game.rpc(false)
@@ -159,7 +159,7 @@ func _on_peer_disconnected(id: int) -> void:
 
 
 func _on_server_disconnected() -> void:
-	Debug.sprint("server_disconnected")
+	Debug.log("server_disconnected")
 
 
 func _add_player(player: Statics.PlayerData) -> void:
@@ -233,6 +233,7 @@ func starting_game(value: bool):
 @rpc("any_peer", "call_local", "reliable")
 func start_game() -> void:
 	get_tree().change_scene_to_file("res://scenes/main.tscn")
+	#get_tree().change_scene_to_file("res://scenes/rts_main.tscn")
 
 
 

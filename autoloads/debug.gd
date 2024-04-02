@@ -4,14 +4,16 @@ extends Node
 @onready var canvas_layer  = CanvasLayer.new()
 @onready var container = VBoxContainer.new()
 
+
 func _ready() -> void:
+	if !OS.is_debug_build():
+		return
 	add_child(canvas_layer)
-	canvas_layer.layer = 100
+	canvas_layer.layer = 1000
 	canvas_layer.add_child(container)
 
 
-# screen print
-func sprint(message: Variant, seconds: int = 2) -> void:
+func log(message: Variant, seconds: int = 2) -> void:
 	if multiplayer.multiplayer_peer is OfflineMultiplayerPeer:
 		print(message)
 	else:

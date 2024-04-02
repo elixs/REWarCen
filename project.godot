@@ -17,8 +17,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Debug="*res://scripts/debug.gd"
-Game="*res://scenes/game.tscn"
+Debug="*res://autoloads/debug.gd"
+Game="*res://autoloads/game.tscn"
 
 [display]
 

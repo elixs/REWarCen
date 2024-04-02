@@ -4,7 +4,7 @@ extends Area2D
 
 
 var can_be_picked = false
-var player: Player
+var player
 
 
 func _ready() -> void:
