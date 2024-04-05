@@ -2,22 +2,24 @@ class_name Player
 extends CharacterBody2D
 
 signal picked(object)
+signal health_changed(value)
 
 var speed = 200
 var jump_speed = 300
 var gravity = 300
 var acceleration = 3000
+var health = 100:
+	set(value):
+		health = value
+		health_changed.emit(health)
+var max_health = 100
 @onready var navigation_agent_2d: NavigationAgent2D = $NavigationAgent2D
-
-
-
 @onready var multiplayer_spawner: MultiplayerSpawner = $MultiplayerSpawner
 @onready var multiplayer_synchronizer: MultiplayerSynchronizer = $MultiplayerSynchronizer
 @onready var input_synchronizer: MultiplayerSynchronizer = $InputSynchronizer
 @onready var line_2d: Line2D = $Line2D
 @onready var camera_2d: Camera2D = $Camera2D
-
-
+@onready var gui: CanvasLayer = $GUI
 @export var bullet_scene: PackedScene
 
 @export var score = 1 :
@@ -32,6 +34,9 @@ func _ready() -> void:
 	line_2d.global_position = Vector2.ZERO
 	picked.connect(_on_picked)
 	camera_2d.enabled = false
+	gui.update_health(health)
+	health_changed.connect(gui.update_health)
+	gui.hide()
 
 func _physics_process(delta: float) -> void:
 	var move_input = input_synchronizer.move_input
@@ -50,10 +55,7 @@ func _input(event: InputEvent) -> void:
 				#line_2d.add_point(pos)
 	if is_multiplayer_authority():
 		if event.is_action_pressed("test"):
-			test.rpc(Game.get_current_player().name)
-			var bullet = bullet_scene.instantiate()
-			# spawner will spawn a bullet on every simulated
-			multiplayer_spawner.add_child(bullet, true)
+			health -= 10
 			# triggers syncronizer
 			score += 1
 
@@ -67,6 +69,7 @@ func setup(player_data: Statics.PlayerData):
 	
 	if multiplayer.get_unique_id() == player_data.id:
 		camera_2d.enabled = true
+		gui.show()
 
 @rpc("authority", "call_local", "reliable")
 func test(name):
