@@ -3,7 +3,16 @@ extends CharacterBody2D
 
 signal picked(object)
 signal health_changed(value)
+signal fired(slash)
 
+@export var bullet_scene: PackedScene
+
+@export var score = 1 :
+	set(value):
+		score = value
+		Debug.log("Player %s score %d" % [name, score])
+
+@export var slash_scene: PackedScene
 var speed = 200
 var jump_speed = 300
 var gravity = 300
@@ -20,12 +29,7 @@ var max_health = 100
 @onready var line_2d: Line2D = $Line2D
 @onready var camera_2d: Camera2D = $Camera2D
 @onready var gui: CanvasLayer = $GUI
-@export var bullet_scene: PackedScene
 
-@export var score = 1 :
-	set(value):
-		score = value
-		Debug.log("Player %s score %d" % [name, score])
 
 var target_path: PackedVector2Array = []
 
@@ -43,6 +47,10 @@ func _physics_process(delta: float) -> void:
 	var target_velocity = move_input * speed
 	velocity = velocity.move_toward(target_velocity, acceleration * delta)
 	move_and_slide()
+	if is_multiplayer_authority():
+		if Input.is_action_just_pressed("fire"):
+			Debug.log(multiplayer.get_unique_id())
+			fire.rpc_id(1, get_global_mouse_position())
 
 func _input(event: InputEvent) -> void:
 	if is_multiplayer_authority():
@@ -86,3 +94,12 @@ func send_data(pos: Vector2, vel: Vector2):
 	
 func _on_picked(object: String):
 	Debug.log(object)
+
+
+@rpc("call_local")
+func fire(mouse_position) -> void:
+	Debug.log(multiplayer.get_unique_id())
+	var slash_inst = slash_scene.instantiate()
+	slash_inst.global_rotation = global_position.direction_to(mouse_position).angle()
+	slash_inst.global_position = global_position
+	fired.emit(slash_inst)

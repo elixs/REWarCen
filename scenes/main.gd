@@ -9,6 +9,7 @@ extends Node2D
 @onready var minimap: Node2D = $CanvasLayer/Minimap
 
 @onready var sprite_2d: Sprite2D = $CanvasLayer/SubViewportContainer/ViewportMinimap/Sprite2D
+@onready var bullets: Node2D = $Bullets
 
 
 func _ready() -> void:
@@ -25,7 +26,11 @@ func _ready() -> void:
 		
 		players.add_child(player)
 		player.setup(player_data)
+		player.fired.connect(_on_player_fired)
 		
 		if player_data.id == multiplayer.get_unique_id():
 			minimap.target_player = player
-		
+
+
+func _on_player_fired(slash) -> void:
+	bullets.add_child(slash, true)

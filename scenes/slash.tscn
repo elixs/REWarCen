@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://o0ywqvnrewgn"]
+
+[ext_resource type="Texture2D" uid="uid://cn7fjk6apn36n" path="res://assets/Knight/noBKG_KnightAttack_strip.png" id="1_514xy"]
+[ext_resource type="Script" path="res://scenes/slash.gd" id="1_j2g0s"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3ljaj"]
+radius = 20.0998
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_q04la"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 0
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 0
+
+[node name="Slash" type="Area2D"]
+script = ExtResource("1_j2g0s")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0.89291, -1.48819)
+rotation = 0.401203
+scale = Vector2(0.773399, 0.885419)
+texture = ExtResource("1_514xy")
+region_enabled = true
+region_rect = Rect2(1487, 9, 48, 30)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = -0.00963807
+scale = Vector2(1, 1)
+shape = SubResource("CircleShape2D_3ljaj")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_q04la")

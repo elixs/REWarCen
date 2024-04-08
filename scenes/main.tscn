@@ -1486,3 +1486,9 @@ script = ExtResource("10_rtj26")
 
 [node name="Camera2D" type="Camera2D" parent="CanvasLayer/SubViewportContainer/ViewportMinimap"]
 zoom = Vector2(0.2, 0.2)
+
+[node name="Bullets" type="Node2D" parent="."]
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://scenes/slash.tscn")
+spawn_path = NodePath("../Bullets")

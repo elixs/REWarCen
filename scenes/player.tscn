@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://c1c5frbvvdvcy"]
+[gd_scene load_steps=9 format=3 uid="uid://c1c5frbvvdvcy"]
 
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_7q1sy"]
+[ext_resource type="PackedScene" uid="uid://o0ywqvnrewgn" path="res://scenes/slash.tscn" id="2_cd47b"]
 [ext_resource type="Texture2D" uid="uid://6dse5cbajfrs" path="res://assets/Knight/noBKG_KnightIdle_strip.png" id="3_ms37y"]
 [ext_resource type="PackedScene" uid="uid://btifjejk60o1a" path="res://ui/gui.tscn" id="4_5xfg1"]
 [ext_resource type="Script" path="res://scenes/input_synchronizer.gd" id="4_outfk"]
@@ -28,6 +29,7 @@ collision_layer = 2
 collision_mask = 3
 motion_mode = 1
 script = ExtResource("1_7q1sy")
+slash_scene = ExtResource("2_cd47b")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(2, 2)
