@@ -27,7 +27,6 @@ region_rect = Rect2(1487, 9, 48, 30)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = -0.00963807
-scale = Vector2(1, 1)
 shape = SubResource("CircleShape2D_3ljaj")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]

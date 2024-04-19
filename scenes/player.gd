@@ -49,7 +49,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	if is_multiplayer_authority():
 		if Input.is_action_just_pressed("fire"):
-			Debug.log(multiplayer.get_unique_id())
+			#Debug.log(multiplayer.get_unique_id())
 			fire.rpc_id(1, get_global_mouse_position())
 
 func _input(event: InputEvent) -> void:
@@ -98,7 +98,7 @@ func _on_picked(object: String):
 
 @rpc("call_local")
 func fire(mouse_position) -> void:
-	Debug.log(multiplayer.get_unique_id())
+	#Debug.log(multiplayer.get_unique_id())
 	var slash_inst = slash_scene.instantiate()
 	slash_inst.global_rotation = global_position.direction_to(mouse_position).angle()
 	slash_inst.global_position = global_position

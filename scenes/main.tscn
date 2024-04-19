@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://b5hufqs7sbm01"]
+[gd_scene load_steps=24 format=3 uid="uid://b5hufqs7sbm01"]
 
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_ysfbh"]
 [ext_resource type="PackedScene" uid="uid://c1c5frbvvdvcy" path="res://scenes/player.tscn" id="2_jyiyy"]
@@ -10,6 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://dvyhbpcb6v57v" path="res://assets/Pixel Art Top Down - Basic/TX Struct.png" id="10_hbaiv"]
 [ext_resource type="Script" path="res://scenes/viewport_minimap.gd" id="10_rtj26"]
 [ext_resource type="Texture2D" uid="uid://765sq7ep28vs" path="res://assets/Pixel Art Top Down - Basic/TX Tileset Grass.png" id="10_y4dh3"]
+[ext_resource type="Texture2D" uid="uid://tw8t38ns0seh" path="res://icon.svg" id="11_3ccuj"]
+[ext_resource type="PackedScene" uid="uid://s2rd8adx00bi" path="res://ui/pause_screen.tscn" id="12_ydnbc"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_r6nxv"]
 vertices = PackedVector2Array(16, 16, -16, 16, -16, -16, 16, -16)
@@ -1435,6 +1437,47 @@ sources/3 = SubResource("TileSetAtlasSource_eopro")
 sources/2 = SubResource("TileSetAtlasSource_4fiie")
 sources/4 = SubResource("TileSetScenesCollectionSource_lj00e")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0n64o"]
+size = Vector2(128, 22)
+
+[sub_resource type="Animation" id="Animation_015tg"]
+resource_name = "new_animation"
+length = 5.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Mushroom:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(286, 232), Vector2(810, 114), Vector2(1211, 401), Vector2(115, 408), Vector2(783, 189)]
+}
+
+[sub_resource type="Animation" id="Animation_flk6s"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Mushroom:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(286, 232)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_aclwv"]
+_data = {
+"RESET": SubResource("Animation_flk6s"),
+"new_animation": SubResource("Animation_015tg")
+}
+
 [node name="Main" type="Node2D"]
 script = ExtResource("1_ysfbh")
 player_scene = ExtResource("2_jyiyy")
@@ -1492,3 +1535,23 @@ zoom = Vector2(0.2, 0.2)
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://scenes/slash.tscn")
 spawn_path = NodePath("../Bullets")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+rotation = 3.14159
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_0n64o")
+one_way_collision = true
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+scale = Vector2(1, 0.1875)
+texture = ExtResource("11_3ccuj")
+
+[node name="PauseScreen" parent="." instance=ExtResource("12_ydnbc")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_aclwv")
+}
+autoplay = "new_animation"
