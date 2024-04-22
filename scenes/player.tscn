@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://c1c5frbvvdvcy"]
+[gd_scene load_steps=11 format=3 uid="uid://c1c5frbvvdvcy"]
 
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_7q1sy"]
 [ext_resource type="PackedScene" uid="uid://o0ywqvnrewgn" path="res://scenes/slash.tscn" id="2_cd47b"]
@@ -15,6 +15,9 @@ properties/0/replication_mode = 2
 properties/1/path = NodePath(".:position")
 properties/1/spawn = true
 properties/1/replication_mode = 1
+properties/2/path = NodePath(".:health")
+properties/2/spawn = true
+properties/2/replication_mode = 2
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fcft3"]
 properties/0/path = NodePath("InputSynchronizer:move_input")
@@ -23,6 +26,12 @@ properties/0/replication_mode = 1
 properties/1/path = NodePath("InputSynchronizer:jumping")
 properties/1/spawn = true
 properties/1/replication_mode = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gdskb"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6qoea"]
+bg_color = Color(0.14902, 0.839216, 0.231373, 1)
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
@@ -59,3 +68,13 @@ avoidance_enabled = true
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="GUI" parent="." instance=ExtResource("4_5xfg1")]
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+custom_minimum_size = Vector2(50, 10)
+offset_left = -23.0
+offset_top = -53.0
+offset_right = 27.0
+offset_bottom = -43.0
+theme_override_styles/background = SubResource("StyleBoxFlat_gdskb")
+theme_override_styles/fill = SubResource("StyleBoxFlat_6qoea")
+show_percentage = false

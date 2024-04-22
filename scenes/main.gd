@@ -24,6 +24,7 @@ func _ready() -> void:
 		if player_data.role == Statics.Role.ROLE_B:
 			player.global_position = player_b.global_position
 		
+		player.health = 50
 		players.add_child(player)
 		player.setup(player_data)
 		player.fired.connect(_on_player_fired)

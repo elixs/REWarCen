@@ -17,7 +17,7 @@ var speed = 200
 var jump_speed = 300
 var gravity = 300
 var acceleration = 3000
-var health = 100:
+@export var health = 100:
 	set(value):
 		health = value
 		health_changed.emit(health)
@@ -29,6 +29,7 @@ var max_health = 100
 @onready var line_2d: Line2D = $Line2D
 @onready var camera_2d: Camera2D = $Camera2D
 @onready var gui: CanvasLayer = $GUI
+@onready var health_bar: ProgressBar = $HealthBar
 
 
 var target_path: PackedVector2Array = []
@@ -40,6 +41,7 @@ func _ready() -> void:
 	camera_2d.enabled = false
 	gui.update_health(health)
 	health_changed.connect(gui.update_health)
+	health_changed.connect(_on_health_changed)
 	gui.hide()
 
 func _physics_process(delta: float) -> void:
@@ -78,7 +80,10 @@ func setup(player_data: Statics.PlayerData):
 	if multiplayer.get_unique_id() == player_data.id:
 		camera_2d.enabled = true
 		gui.show()
-
+	health_bar.visible = multiplayer.get_unique_id() != player_data.id
+	
+	
+	
 @rpc("authority", "call_local", "reliable")
 func test(name):
 	var message = "test " + name
@@ -103,3 +108,6 @@ func fire(mouse_position) -> void:
 	slash_inst.global_rotation = global_position.direction_to(mouse_position).angle()
 	slash_inst.global_position = global_position
 	fired.emit(slash_inst)
+
+func _on_health_changed(new_health) -> void:
+	health_bar.value = new_health
