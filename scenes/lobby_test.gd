@@ -58,5 +58,7 @@ func send_player_data_id(player_index, id):
 
 
 func start_game() -> void:
-	get_tree().change_scene_to_file("res://scenes/main.tscn")
+	#get_tree().change_scene_to_file("res://scenes/main.tscn")
 	#get_tree().change_scene_to_file("res://scenes/rts_main.tscn")
+	get_tree().change_scene_to_file("res://checkpoint/checkpoint.tscn")
+	

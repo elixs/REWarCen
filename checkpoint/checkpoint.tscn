@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://dygukn71lvdps"]
+
+[ext_resource type="Script" path="res://checkpoint/checkpoint.gd" id="1_jrfni"]
+[ext_resource type="PackedScene" uid="uid://c8g0m60a4h160" path="res://checkpoint/player.tscn" id="2_54v3m"]
+[ext_resource type="PackedScene" uid="uid://vyw6dp2i2leq" path="res://checkpoint/ball.tscn" id="3_m73ga"]
+
+[node name="Checkpoint" type="Node2D"]
+script = ExtResource("1_jrfni")
+player_scene = ExtResource("2_54v3m")
+ball_scene = ExtResource("3_m73ga")
+
+[node name="PlayerA" type="Marker2D" parent="."]
+position = Vector2(186, 189)
+
+[node name="PlayerB" type="Marker2D" parent="."]
+position = Vector2(465, 169)
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://checkpoint/ball.tscn")
+spawn_path = NodePath("../Balls")
+
+[node name="Balls" type="Node2D" parent="."]
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true

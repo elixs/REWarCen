@@ -1,6 +1,7 @@
 extends Node
 
 
+@onready var id_label = Label.new()
 @onready var canvas_layer  = CanvasLayer.new()
 @onready var container = VBoxContainer.new()
 
@@ -11,6 +12,16 @@ func _ready() -> void:
 	add_child(canvas_layer)
 	canvas_layer.layer = 1000
 	canvas_layer.add_child(container)
+
+	id_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	id_label.set_anchors_preset(Control.PRESET_TOP_WIDE, true)
+	canvas_layer.add_child(id_label)
+
+
+func _process(delta: float) -> void:
+	if not (multiplayer.multiplayer_peer is OfflineMultiplayerPeer):
+		canvas_layer.name = str(multiplayer.get_unique_id())
+		id_label.text = str(multiplayer.get_unique_id())
 
 
 func log(message: Variant, seconds: int = 2) -> void:

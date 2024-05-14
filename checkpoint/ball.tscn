@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://vyw6dp2i2leq"]
+
+[ext_resource type="Texture2D" uid="uid://tw8t38ns0seh" path="res://icon.svg" id="1_xxwos"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_imhfh"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 0
+properties/1/path = NodePath(".:modulate")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+
+[node name="Ball" type="Sprite2D"]
+scale = Vector2(0.359375, 0.359375)
+texture = ExtResource("1_xxwos")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_imhfh")
